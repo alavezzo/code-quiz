@@ -2,6 +2,11 @@ var testQuestions = {
     one: "what is blah blah blah"
 }
 
+questionOne = ['right', 'wrong','wrong','wrong'];
+questionTwo = ['right', 'wrong','wrong','wrong'];
+questionThree = ['right', 'wrong','wrong','wrong'];
+testAnswers = [questionOne, questionTwo, questionThree]
+
 var second = 1000
 
 var startButton = document.querySelector('#start-btn')
@@ -31,5 +36,34 @@ var startTimer = function () {
     }
     }, 1000);
 } 
+var randomNumber = function(min, max) {
+    var value = Math.floor((Math.random() * (max-min+1)) + min);
 
+    return value;
+}
+
+var mainHeader = document.getElementById('main-header')
+
+var initializeTest = function() {
+    var main = document.querySelector('.main');
+    var mainBody = document.querySelector('.paragraph-button')
+    mainBody.remove();
+    mainHeader.innerHTML = "This is the first Question"
+
+    var formItemEl = document.createElement('form');
+
+    var randomQuestion = testAnswers[randomNumber(0,2)];
+        
+    for (i=0; i<randomQuestion.length; i++) {
+        var answers = randomQuestion[i]
+        var answerBtn = document.createElement('button');
+        answerBtn.type = 'submit';
+        answerBtn.value = 'answer';
+        answerBtn.innerHTML = answers;
+        formItemEl.appendChild(answerBtn);
+    }
+
+    main.appendChild(formItemEl)
+}
 startButton.addEventListener('click', startTimer)
+startButton.addEventListener('click', initializeTest)
