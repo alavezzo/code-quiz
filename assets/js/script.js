@@ -1,7 +1,7 @@
 var question = {
     one: "Commonly used data Types DO NOT Include:",
     two: "blah blah blah",
-    three: "blah blah blah"
+    three: "blah blah"
 }
 var quizQuestions = [question.one, question.two, question.three]
 
@@ -12,6 +12,9 @@ var testAnswers = [answerOne, answerTwo, answerThree]
 
 var counter = 0
 var second = 1000
+
+var mainHeader = document.getElementById('main-header')
+var main = document.querySelector('.main');
 
 var startTimer = function () {
     var countDownDate = new Date().getTime() + (75*second);
@@ -44,8 +47,7 @@ var randomNumber = function(min, max) {
     return value;
 }
 
-var mainHeader = document.getElementById('main-header')
-var main = document.querySelector('.main');
+
 
 var newQuestion = function() {
     event.preventDefault();
@@ -62,24 +64,26 @@ var newQuestion = function() {
 
 var loadQuestion = function () {
 
-    mainHeader.innerHTML = quizQuestions[counter];
+    if (counter<quizQuestions.length) {
 
-    var formItemEl = document.createElement('form');
-    formItemEl.className = 'form';
-    var randomQuestion = testAnswers[randomNumber(0,2)];
-        
-    for (i=0; i<randomQuestion.length; i++) {
-        var answers = randomQuestion[i]
-        var answerBtn = document.createElement('button');
-        answerBtn.className = 'btn answer-btn';
-        answerBtn.type = 'submit';
-        answerBtn.value = 'answer';
-        answerBtn.innerHTML = answers;
-        formItemEl.appendChild(answerBtn);
-    }
+        mainHeader.innerHTML = quizQuestions[counter];
 
-    main.appendChild(formItemEl)
+        var formItemEl = document.createElement('form');
+        formItemEl.className = 'form';
+        var randomQuestion = testAnswers[counter];
+            
+        for (i=0; i<randomQuestion.length; i++) {
+            var answers = randomQuestion[i]
+            var answerBtn = document.createElement('button');
+            answerBtn.className = 'btn answer-btn';
+            answerBtn.type = 'submit';
+            answerBtn.value = 'answer';
+            answerBtn.innerHTML = answers;
+            formItemEl.appendChild(answerBtn);
+        }
     counter++  
+    main.appendChild(formItemEl)
+}   
 }
 
 var startButton = document.querySelector('#start-btn')
