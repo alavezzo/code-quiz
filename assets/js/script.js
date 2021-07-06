@@ -1,3 +1,7 @@
+var testQuestions = {
+    one: "what is blah blah blah"
+}
+
 var second = 1000
 
 var startButton = document.querySelector('#start-btn')
@@ -26,7 +30,6 @@ var startTimer = function () {
         document.querySelector(".countdown").innerHTML = "Time Is Up";
     }
     }, 1000);
-}
-
+} 
 
 startButton.addEventListener('click', startTimer)
