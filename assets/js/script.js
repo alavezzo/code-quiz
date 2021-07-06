@@ -1,15 +1,17 @@
-var testQuestions = {
-    one: "what is blah blah blah"
+var question = {
+    one: "Commonly used data Types DO NOT Include:",
+    two: "blah blah blah",
+    three: "blah blah blah"
 }
+var quizQuestions = [question.one, question.two, question.three]
 
-questionOne = ['right', 'wrong','wrong','wrong'];
-questionTwo = ['right', 'wrong','wrong','wrong'];
-questionThree = ['right', 'wrong','wrong','wrong'];
-testAnswers = [questionOne, questionTwo, questionThree]
+var answerOne = ['right', 'wrong','wrong','wrong'];
+var answerTwo = ['wrong','wrong','wrong','right'];
+var answerThree = ['wrong','right', 'wrong','wrong'];
+var testAnswers = [answerOne, answerTwo, answerThree]
 
+var counter = 0
 var second = 1000
-
-var startButton = document.querySelector('#start-btn')
 
 var startTimer = function () {
     var countDownDate = new Date().getTime() + (75*second);
@@ -43,20 +45,33 @@ var randomNumber = function(min, max) {
 }
 
 var mainHeader = document.getElementById('main-header')
+var main = document.querySelector('.main');
 
-var initializeTest = function() {
-    var main = document.querySelector('.main');
-    var mainBody = document.querySelector('.paragraph-button')
-    mainBody.remove();
-    mainHeader.innerHTML = "This is the first Question"
+var newQuestion = function() {
+    event.preventDefault();
+    // button was clicked
+    if (event.target.matches('.btn')) {
+        var questionForm = document.querySelector('.form');
+        questionForm.remove();
+        var targetEl = event.target;
+        //get the element's task id
+    loadQuestion();
+    }
+    
+}
+
+var loadQuestion = function () {
+
+    mainHeader.innerHTML = quizQuestions[counter];
 
     var formItemEl = document.createElement('form');
-
+    formItemEl.className = 'form';
     var randomQuestion = testAnswers[randomNumber(0,2)];
         
     for (i=0; i<randomQuestion.length; i++) {
         var answers = randomQuestion[i]
         var answerBtn = document.createElement('button');
+        answerBtn.className = 'btn answer-btn';
         answerBtn.type = 'submit';
         answerBtn.value = 'answer';
         answerBtn.innerHTML = answers;
@@ -64,6 +79,10 @@ var initializeTest = function() {
     }
 
     main.appendChild(formItemEl)
+    counter++  
 }
+
+var startButton = document.querySelector('#start-btn')
 startButton.addEventListener('click', startTimer)
-startButton.addEventListener('click', initializeTest)
+main.addEventListener('click', newQuestion)
+
