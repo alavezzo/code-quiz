@@ -2,14 +2,26 @@ var question = {
     one: "Commonly used data Types DO NOT Include:",
     two: "blah blah blah",
     three: "blah blah"
-}
+};
 var quizQuestions = [question.one, question.two, question.three]
 
-var answerOne = ['right', 'wrong','wrong','wrong'];
-var answerTwo = ['wrong','wrong','wrong','right'];
-var answerThree = ['wrong','right', 'wrong','wrong'];
-var testAnswers = [answerOne, answerTwo, answerThree]
+var answerSetOne = {
+    answers: ['booleans', 'numbers','strings','alerts'],
+    answerValues: [false, false, false, true]
+};
 
+var answerSetTwo = {
+    answers: ['', '','',''],
+    answerValues: []
+};
+
+var answerSetThree = {
+    answers: ['wrong','right', 'wrong','wrong'],
+    answerValues: []
+};
+
+var testAnswers = [answerSetOne.answers, answerSetTwo.answers, answerSetThree.answers]
+var testAnswerValues = [answerSetOne.answerValues, answerSetTwo.answerValues, answerSetThree.answerValues]
 var counter = 0
 var second = 1000
 
@@ -70,14 +82,15 @@ var loadQuestion = function () {
 
         var formItemEl = document.createElement('form');
         formItemEl.className = 'form';
-        var randomQuestion = testAnswers[counter];
-            
-        for (i=0; i<randomQuestion.length; i++) {
-            var answers = randomQuestion[i]
+        var nextQuestion = testAnswers[counter];
+        var answerValues = testAnswerValues[counter]
+        for (i=0; i<nextQuestion.length; i++) {
+            var answers = nextQuestion[i];
+            var values = answerValues[i];
             var answerBtn = document.createElement('button');
             answerBtn.className = 'btn answer-btn';
             answerBtn.type = 'submit';
-            answerBtn.value = 'answer';
+            answerBtn.value = values;
             answerBtn.innerHTML = answers;
             formItemEl.appendChild(answerBtn);
         }
