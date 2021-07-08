@@ -121,11 +121,11 @@ let timerMinusTen = function() {
 }
 let randomNumber = function(min, max) {
     let value = Math.floor((Math.random() * (max-min+1)) + min);
-
     return value;
 }
 
 let loadNextBtn = function() {
+    if (counter<quizQuestions.length) {
     let formItemEl = document.querySelector('.form')
     let btnDiv = document.querySelector('.btn-div');
     btnDiv.remove();
@@ -137,6 +137,13 @@ let loadNextBtn = function() {
         nextBtn.innerHTML = 'Next Question!';
     divItemEl.appendChild(nextBtn);
     formItemEl.appendChild(divItemEl)
+    }
+    else {
+    let formItemEl = document.querySelector('.form')
+    let btnDiv = document.querySelector('.btn-div');
+    btnDiv.remove();
+    mainHeader.innerHTML = quizQuestions[counter] = 'Your final score is ' + percentCorrect; 
+    }
 }
 
 let newQuestion = function() {
@@ -201,7 +208,7 @@ let retrieveValue = function () {
             timerMinusTen();
             numberIncorrect++
         }
-        percentCorrect = (numberCorrect/(numberCorrect + numberIncorrect))
+        percentCorrect = (((numberCorrect/(numberCorrect + numberIncorrect))*100) + '%')
         
         saveValues();
         loadNextBtn();
