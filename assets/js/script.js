@@ -79,13 +79,14 @@ let startTimer = function () {
 
     // Display the result in the element with id="demo"
     document.querySelector('.countdown').innerHTML = seconds
-
+    
+    timeRemaining = seconds
     // If the count down is finished, write some text
     if (distance < 0) {
         clearInterval(x);
         document.querySelector(".countdown").innerHTML = "Time Is Up";
+        timeRemaining = 0
     }
-    timeRemaining = seconds
     saveTimeRemaining();
     }, 1000);
     
