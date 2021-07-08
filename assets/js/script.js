@@ -1,12 +1,17 @@
 let numberCorrect = 0
 let numberIncorrect = 0
 let percentCorrect = 0
+let timeRemaining = ''
 
 let saveValues = function() {
     localStorage.setItem("Correct", JSON.stringify(numberCorrect));
     localStorage.setItem("Incorrect", JSON.stringify(numberIncorrect));
     localStorage.setItem("Percentage", JSON.stringify(percentCorrect))
 };
+
+let saveTimeRemaining = function() {
+    localStorage.setItem("Time Remaining", JSON.stringify(timeRemaining))
+}
 let question = {
     one: 'Commonly used data Types DO NOT Include:',
     two: 'The condition in an if/else statement is enclosed with _____.',
@@ -80,7 +85,10 @@ let startTimer = function () {
         clearInterval(x);
         document.querySelector(".countdown").innerHTML = "Time Is Up";
     }
+    timeRemaining = seconds
+    saveTimeRemaining();
     }, 1000);
+    
 } 
 
 let timerMinusTen = function() {
