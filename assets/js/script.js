@@ -12,6 +12,7 @@ let saveValues = function() {
 let saveTimeRemaining = function() {
     localStorage.setItem("Time Remaining", JSON.stringify(timeRemaining))
 }
+
 let question = {
     one: 'Commonly used data Types DO NOT Include:',
     two: 'The condition in an if/else statement is enclosed with _____.',
@@ -49,6 +50,7 @@ let testAnswers = [answerSetOne.answers, answerSetTwo.answers, answerSetThree.an
 let testAnswerValues = [answerSetOne.answerValues, answerSetTwo.answerValues, answerSetThree.answerValues, answerSetFour.answerValues, answerSetFive.answerValues]
 
 let counter = 0
+let counterTwo = 0
 let second = 1000
 
 let mainHeader = document.getElementById('main-header')
@@ -88,10 +90,13 @@ let startTimer = function () {
         document.querySelector(".countdown").innerHTML = "Time Is Up";
         timeRemaining = 0
     }
+    else if (counterTwo===quizQuestions.length) {
+        clearInterval(x);
+        document.querySelector(".countdown").innerHTML = "Quiz Complete!";
+    }
     saveTimeRemaining();
     }, 1000);
-    
-} 
+}
 
 let timerMinusTen = function() {
     setCountDown.date = setCountDown.date - (10*second);
@@ -116,9 +121,16 @@ let timerMinusTen = function() {
     if (distance < 0) {
         clearInterval(x);
         document.querySelector(".countdown").innerHTML = "Time Is Up";
+        timeRemaining = 0
+    }
+    else if (counterTwo===quizQuestions.length) {
+        clearInterval(x);
+        document.querySelector(".countdown").innerHTML = "Quiz Complete!";
     }
     }, 1000);
 }
+
+
 let randomNumber = function(min, max) {
     let value = Math.floor((Math.random() * (max-min+1)) + min);
     return value;
@@ -137,13 +149,13 @@ let loadNextBtn = function() {
         nextBtn.innerHTML = 'Next Question!';
     divItemEl.appendChild(nextBtn);
     formItemEl.appendChild(divItemEl)
-    }
+    } 
     else {
-    let formItemEl = document.querySelector('.form')
-    let btnDiv = document.querySelector('.btn-div');
-    btnDiv.remove();
-    mainHeader.innerHTML = quizQuestions[counter] = 'Your final score is ' + percentCorrect; 
+        mainHeader.innerHTML = 'Your Final Score is ' + percentCorrect;
+        document.querySelector('.btn-div').remove();
+        document.querySelector('.time-tag').remove()
     }
+    counterTwo++ 
 }
 
 let newQuestion = function() {
@@ -181,8 +193,8 @@ let loadQuestion = function() {
             divItemEl.appendChild(answerBtn);
         }
         formItemEl.appendChild(divItemEl)
-    counter++  
     main.appendChild(formItemEl)
+    counter++
 }   
 }
 let retrieveValue = function () {
@@ -201,18 +213,19 @@ let retrieveValue = function () {
             numberCorrect++
         }
         else {
+            timerMinusTen();
             let feedback = document.createElement('h2');
             feedback.className = 'feedback';
             feedback.innerText = 'Incorrect';
             form.appendChild(feedback);
-            timerMinusTen();
             numberIncorrect++
+    
         }
         percentCorrect = (((numberCorrect/(numberCorrect + numberIncorrect))*100) + '%')
-        
         saveValues();
         loadNextBtn();
     }
+
 }
 
 let startButton = document.querySelector('#start-btn')
