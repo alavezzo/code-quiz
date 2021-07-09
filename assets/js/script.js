@@ -2,6 +2,8 @@ let numberCorrect = 0
 let numberIncorrect = 0
 let percentCorrect = 0
 let timeRemaining = ''
+let finalScore = ''
+let fs = ''
 
 let saveValues = function() {
     localStorage.setItem("Correct", JSON.stringify(numberCorrect));
@@ -13,6 +15,9 @@ let saveTimeRemaining = function() {
     localStorage.setItem("Time Remaining", JSON.stringify(timeRemaining))
 }
 
+let saveFinalScore = function(finalScore) {
+    localStorage.setItem('Final Score', finalScore)
+}
 let question = {
     one: 'Commonly used data Types DO NOT Include:',
     two: 'The condition in an if/else statement is enclosed with _____.',
@@ -95,6 +100,8 @@ let startTimer = function () {
         document.querySelector(".countdown").innerHTML = "Quiz Complete!";
     }
     saveTimeRemaining();
+    finalScore = timeRemaining;
+    saveFinalScore(finalScore);
     }, 1000);
 }
 
@@ -175,7 +182,10 @@ let randomNumber = function(min, max) {
 
 let loadQuestion = function() {
     event.preventDefault();
+    let targetEl = event.target;
     if (event.target.matches('.btn')) {
+        let formItemEl = document.querySelector('.form');
+
         if (counter<quizQuestions.length) {
 
             mainHeader.innerHTML = quizQuestions[counter];
@@ -184,7 +194,7 @@ let loadQuestion = function() {
             
             // let formItemEl = document.createElement('form');
             // formItemEl.className = 'form';
-            let formItemEl = document.querySelector('.form');
+            
             let divItemEl = document.createElement('div');
             divItemEl.className = "btn-div"
             let nextQuestion = testAnswers[counter];
@@ -201,14 +211,57 @@ let loadQuestion = function() {
                 divItemEl.appendChild(answerBtn);
             } 
             formItemEl.appendChild(divItemEl)
-            main.appendChild(formItemEl)
         }   
         else {
-            mainHeader.innerHTML = 'Your Final Score is ' + timeRemaining;
-            let btnDiv = document.querySelector('.btn-div');
-            btnDiv.remove();
-            document.querySelector('.time-tag').remove();
             counterTwo = quizQuestions.length
+            document.querySelector('.time-tag').remove()
+
+            mainHeader.innerHTML = 'All Done!'
+
+            let btnValue = targetEl.getAttribute('value');
+            if (btnValue === 'true') {
+                fS = finalScore
+                let btnDiv = document.querySelector('.btn-div');
+                btnDiv.remove()
+
+                
+                let pItemEl = document.createElement('div');
+
+                pItemEl.className = "final-message"
+
+                pItemEl.innerText = 'Your final Score is ' + fS
+                formItemEl.appendChild(pItemEl)
+                let labelItemEl = document.createElement('label')
+                    labelItemEl.setAttribute('for', 'initials')
+                    labelItemEl.innerText = 'Enter Initals'
+                let inputItemEl = document.createElement('input')
+                    inputItemEl.type = 'text'
+                    inputItemEl.name = 'initials'
+                    inputItemEl.className = 'form-input'
+                formItemEl.appendChild(labelItemEl)
+                formItemEl.appendChild(inputItemEl)
+            }
+            if (btnValue === 'false') {
+                fS = finalScore-10
+                let btnDiv = document.querySelector('.btn-div');
+                btnDiv.remove()
+
+                let pItemEl = document.createElement('div');
+
+                pItemEl.className = "final-message"
+
+                pItemEl.innerText = 'Your final Score is ' + fS
+                formItemEl.appendChild(pItemEl)
+                let labelItemEl = document.createElement('label')
+                    labelItemEl.setAttribute('for', 'initials')
+                    labelItemEl.innerText = 'Enter Initals:'
+                let inputItemEl = document.createElement('input')
+                    inputItemEl.type = 'text'
+                    inputItemEl.name = 'initials'
+                    inputItemEl.className = 'form-input'
+                formItemEl.appendChild(labelItemEl)
+                formItemEl.appendChild(inputItemEl)
+            }
         }
         retrieveValue();
         counter++
@@ -242,7 +295,6 @@ let retrieveValue = function () {
             fbDiv.appendChild(feedback) 
             form.appendChild(fbDiv);
             numberIncorrect++
-    
         }
         percentCorrect = (((numberCorrect/(numberCorrect + numberIncorrect))*100) + '%')
         saveValues();
