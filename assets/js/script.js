@@ -127,6 +127,7 @@ let timerMinusTen = function() {
         clearInterval(x);
         document.querySelector(".countdown").innerHTML = "Quiz Complete!";
     }
+    saveTimeRemaining()
     }, 1000);
 }
 
@@ -173,43 +174,44 @@ let randomNumber = function(min, max) {
 // }
 
 let loadQuestion = function() {
+    event.preventDefault();
+    if (event.target.matches('.btn')) {
+        if (counter<quizQuestions.length) {
 
-    if (counter<quizQuestions.length) {
-
-        mainHeader.innerHTML = quizQuestions[counter];
-        let btnDiv = document.querySelector('.btn-div');
-        btnDiv.remove();
-        
-        // let formItemEl = document.createElement('form');
-        // formItemEl.className = 'form';
-        let formItemEl = document.querySelector('.form');
-        let divItemEl = document.createElement('div');
-        divItemEl.className = "btn-div"
-        let nextQuestion = testAnswers[counter];
-        let answerValues = testAnswerValues[counter]
-        for (i=0; i<nextQuestion.length; i++) {
-            let order = (1 + i);
-            let answers = nextQuestion[i];
-            let values = answerValues[i];
-            let answerBtn = document.createElement('button');
-            answerBtn.className = 'btn answer-btn';
-            answerBtn.type = 'submit';
-            answerBtn.value = values;
-            answerBtn.innerHTML = order + '. ' + answers;
-            divItemEl.appendChild(answerBtn);
+            mainHeader.innerHTML = quizQuestions[counter];
+            let btnDiv = document.querySelector('.btn-div');
+            btnDiv.remove();
+            
+            // let formItemEl = document.createElement('form');
+            // formItemEl.className = 'form';
+            let formItemEl = document.querySelector('.form');
+            let divItemEl = document.createElement('div');
+            divItemEl.className = "btn-div"
+            let nextQuestion = testAnswers[counter];
+            let answerValues = testAnswerValues[counter]
+            for (i=0; i<nextQuestion.length; i++) {
+                let order = (1 + i);
+                let answers = nextQuestion[i];
+                let values = answerValues[i];
+                let answerBtn = document.createElement('button');
+                answerBtn.className = 'btn answer-btn';
+                answerBtn.type = 'submit';
+                answerBtn.value = values;
+                answerBtn.innerHTML = order + '. ' + answers;
+                divItemEl.appendChild(answerBtn);
+            } 
+            formItemEl.appendChild(divItemEl)
+            main.appendChild(formItemEl)
+        }   
+        else {
+            mainHeader.innerHTML = 'Your Final Score is ' + timeRemaining;
+            let btnDiv = document.querySelector('.btn-div');
+            btnDiv.remove();
+            document.querySelector('.time-tag').remove();
+            counterTwo = quizQuestions.length
         }
-        
-        formItemEl.appendChild(divItemEl)
-        main.appendChild(formItemEl)
         retrieveValue();
         counter++
-    }   
-    else {
-        mainHeader.innerHTML = 'Your Final Score is ' + percentCorrect;
-        let btnDiv = document.querySelector('.btn-div');
-        btnDiv.remove();
-        document.querySelector('.time-tag').remove();
-        counterTwo = quizQuestions.length
     }
 }
 let retrieveValue = function () {
