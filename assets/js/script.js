@@ -1,17 +1,23 @@
 let numberCorrect = 0
 let numberIncorrect = 0
 let percentCorrect = 0
+let timeRemaining = ''
 
 let saveValues = function() {
     localStorage.setItem("Correct", JSON.stringify(numberCorrect));
     localStorage.setItem("Incorrect", JSON.stringify(numberIncorrect));
     localStorage.setItem("Percentage", JSON.stringify(percentCorrect))
 };
+
+let saveTimeRemaining = function() {
+    localStorage.setItem("Time Remaining", JSON.stringify(timeRemaining))
+}
+
 let question = {
     one: 'Commonly used data Types DO NOT Include:',
     two: 'The condition in an if/else statement is enclosed with _____.',
     three: 'Arrays in javascript can be used to store _____.',
-    four: 'String values must be enclosed within ____ when being assigned to letiables.',
+    four: 'String values must be enclosed within ____ when being assigned to variables.',
     five: 'A very useful tool during development and debugging for printing content to the debugger is ______. '
 };
 
@@ -44,6 +50,7 @@ let testAnswers = [answerSetOne.answers, answerSetTwo.answers, answerSetThree.an
 let testAnswerValues = [answerSetOne.answerValues, answerSetTwo.answerValues, answerSetThree.answerValues, answerSetFour.answerValues, answerSetFive.answerValues]
 
 let counter = 0
+let counterTwo = 0
 let second = 1000
 
 let mainHeader = document.getElementById('main-header')
@@ -74,14 +81,22 @@ let startTimer = function () {
 
     // Display the result in the element with id="demo"
     document.querySelector('.countdown').innerHTML = seconds
-
+    
+    timeRemaining = seconds
     // If the count down is finished, write some text
     if (distance < 0) {
         clearInterval(x);
+        document.querySelector(".time-tag").remove();
         document.querySelector(".countdown").innerHTML = "Time Is Up";
+        timeRemaining = 0
     }
+    else if (counterTwo===quizQuestions.length) {
+        clearInterval(x);
+        document.querySelector(".countdown").innerHTML = "Quiz Complete!";
+    }
+    saveTimeRemaining();
     }, 1000);
-} 
+}
 
 let timerMinusTen = function() {
     setCountDown.date = setCountDown.date - (10*second);
@@ -106,48 +121,68 @@ let timerMinusTen = function() {
     if (distance < 0) {
         clearInterval(x);
         document.querySelector(".countdown").innerHTML = "Time Is Up";
+        timeRemaining = 0
+    }
+    else if (counterTwo===quizQuestions.length) {
+        clearInterval(x);
+        document.querySelector(".countdown").innerHTML = "Quiz Complete!";
     }
     }, 1000);
 }
+
+
 let randomNumber = function(min, max) {
     let value = Math.floor((Math.random() * (max-min+1)) + min);
-
     return value;
 }
 
-let loadNextBtn = function() {
-    let formItemEl = document.querySelector('.form')
-    let btnDiv = document.querySelector('.btn-div');
-    btnDiv.remove();
-    let divItemEl = document.createElement('div');
-    divItemEl.className = 'btn-div';
-    let nextBtn = document.createElement('button');
-        nextBtn.className = 'btn next-btn';
-        nextBtn.type = 'submit';
-        nextBtn.innerHTML = 'Next Question!';
-    divItemEl.appendChild(nextBtn);
-    formItemEl.appendChild(divItemEl)
-}
+// Obsolete Next Question Button Feature
 
-let newQuestion = function() {
-    event.preventDefault();
-    // button was clicked
-    if (event.target.matches('.next-btn')) {
-        let questionForm = document.querySelector('.form');
-        questionForm.remove();
-        //get the element's task id
-        loadQuestion();
-    } 
-}
+// let loadNextBtn = function() {
+//     if (counter<quizQuestions.length) {
+//     let formItemEl = document.querySelector('.form')
+//     let btnDiv = document.querySelector('.btn-div');
+//     btnDiv.remove();
+//     let divItemEl = document.createElement('div');
+//     divItemEl.className = 'btn-div';
+//     let nextBtn = document.createElement('button');
+//         nextBtn.className = 'btn next-btn';
+//         nextBtn.type = 'submit';
+//         nextBtn.innerHTML = 'Next Question!';
+//     divItemEl.appendChild(nextBtn);
+//     formItemEl.appendChild(divItemEl)
+//     } 
+//     else {
+//         mainHeader.innerHTML = 'Your Final Score is ' + percentCorrect;
+//         let btnDiv = document.querySelector('.btn-div');
+//         btnDiv.remove();
+//         document.querySelector('.time-tag').remove();
+//     }
+//     counterTwo++ 
+// }
+
+// let newQuestion = function() {
+//     event.preventDefault();
+//     // button was clicked
+//     if (event.target.matches('.btn')) {
+//         let questionForm = document.querySelector('.form');
+//         questionForm.remove();
+//         //get the element's task id
+//         loadQuestion();
+//     } 
+// }
 
 let loadQuestion = function() {
 
     if (counter<quizQuestions.length) {
 
         mainHeader.innerHTML = quizQuestions[counter];
-
-        let formItemEl = document.createElement('form');
-        formItemEl.className = 'form';
+        let btnDiv = document.querySelector('.btn-div');
+        btnDiv.remove();
+        
+        // let formItemEl = document.createElement('form');
+        // formItemEl.className = 'form';
+        let formItemEl = document.querySelector('.form');
         let divItemEl = document.createElement('div');
         divItemEl.className = "btn-div"
         let nextQuestion = testAnswers[counter];
@@ -163,42 +198,56 @@ let loadQuestion = function() {
             answerBtn.innerHTML = order + '. ' + answers;
             divItemEl.appendChild(answerBtn);
         }
+        
         formItemEl.appendChild(divItemEl)
-    counter++  
-    main.appendChild(formItemEl)
-}   
+        main.appendChild(formItemEl)
+        retrieveValue();
+        counter++
+    }   
+    else {
+        mainHeader.innerHTML = 'Your Final Score is ' + percentCorrect;
+        let btnDiv = document.querySelector('.btn-div');
+        btnDiv.remove();
+        document.querySelector('.time-tag').remove();
+        counterTwo = quizQuestions.length
+    }
 }
 let retrieveValue = function () {
     event.preventDefault();
     let targetEl = event.target;
     form = document.querySelector('.form')
     if (event.target.matches('.answer-btn')) {
+        //remove feedback div
+        document.querySelector('.feedback').remove()
+        let fbDiv = document.createElement('div')
+        fbDiv.className = 'feedback'
         //get the element's value
         let btnValue = targetEl.getAttribute('value');
         console.log(btnValue);
         if (btnValue === 'true') {
             let feedback = document.createElement('h2');
-            feedback.className = 'feedback';
+            feedback.className = 'feedback-text';
             feedback.innerText = 'Correct'
-            form.appendChild(feedback) 
+            fbDiv.appendChild(feedback) 
+            form.appendChild(fbDiv);
             numberCorrect++
         }
         else {
-            let feedback = document.createElement('h2');
-            feedback.className = 'feedback';
-            feedback.innerText = 'Incorrect';
-            form.appendChild(feedback);
             timerMinusTen();
+            let feedback = document.createElement('h2');
+            feedback.className = 'feedback-text';
+            feedback.innerText = 'Incorrect';
+            fbDiv.appendChild(feedback) 
+            form.appendChild(fbDiv);
             numberIncorrect++
+    
         }
-        percentCorrect = (numberCorrect/(numberCorrect + numberIncorrect))
-        
+        percentCorrect = (((numberCorrect/(numberCorrect + numberIncorrect))*100) + '%')
         saveValues();
-        loadNextBtn();
     }
 }
 
 let startButton = document.querySelector('#start-btn')
 startButton.addEventListener('click', startTimer)
-main.addEventListener('click', newQuestion)
-main.addEventListener('click', retrieveValue)
+// main.addEventListener('click', newQuestion)
+main.addEventListener('click', loadQuestion)

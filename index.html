@@ -13,14 +13,18 @@
             <a href='/'>View High Scores</a>
         </h2>
         <div class='timer'>
-            <p>Time:<span class='countdown'></span></p>
+            <p><span class='time-tag'>Time:</span><span class='countdown'></span></p>
         </div>
     </header>
     <main class='main'>
         <h1 id='main-header'>Coding Quiz Challenge</h1>
         <section class='form'>
-            <p>Try to answer the following code questions in the alloted time! Incorrect answers will be penalized 10 seconds from your score/time!</p>
-            <button class='btn next-btn' id='start-btn'>Start Quiz</button>
+            <div class='btn-div'>
+                <p>Try to answer the following code questions in the alloted time! Incorrect answers will be penalized 10 seconds from your score/time!</p>
+                <button class='btn' id='start-btn'>Start Quiz</button>
+            </div>
+            <div class='feedback'>
+            </div>
         </section>
     </main>
     <script src='./assets/js/script.js'></script>
