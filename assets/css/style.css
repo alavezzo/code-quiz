@@ -18,10 +18,12 @@ main {
   margin: 5vh 25vw;
 }
 
-main h1 {
-  margin: 25px 0;
+#main-header {
+  margin: 50px 0 25px 0;
 }
-
+#tertiary-header {
+  margin-bottom: 25px;
+}
 main button {
   padding: 10px;
 }
@@ -32,12 +34,27 @@ main button {
   flex-direction:column;
 }
 
+#start-btn {
+  margin: auto;
+}
+#start-p, #main-header {
+  text-align: center;
+}
+#start-p {
+  margin-bottom: 25px;
+}
 .btn {
   width: 150px;
   margin: 5px 0;
   background-color:rgb(3, 3, 121);
+  color: white;
+  border-radius: 10px;
 }
 
+.form-input {
+  margin: 0 5px;
+  padding: 7px;
+}
 .feedback-text {
   border-top: solid;
   border-color: lightgrey;

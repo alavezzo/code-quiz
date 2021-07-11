@@ -190,7 +190,7 @@ let loadQuestion = function() {
         let formItemEl = document.querySelector('.form');
 
         if (counter<quizQuestions.length) {
-
+            mainHeader.id = 'secondary-header'
             mainHeader.innerHTML = quizQuestions[counter];
             let btnDiv = document.querySelector('.btn-div');
             btnDiv.remove();
@@ -218,7 +218,7 @@ let loadQuestion = function() {
         else {
             counterTwo = quizQuestions.length
             document.querySelector('.time-tag').remove()
-
+            mainHeader.id = 'tertiary-header'
             mainHeader.innerHTML = 'All Done!'
 
             let btnValue = targetEl.getAttribute('value');
