@@ -384,6 +384,7 @@ let highScore = function(){
     mainHeader.innerHTML = 'High Scores';
     let listDivEl = document.createElement('div')
     let listEl = document.createElement('ul')
+    listEl.className = 'list-div'
     for (i=0;i<sortScores.length; i++) {
         let listItemEl = document.createElement('li')
         listItemEl.innerHTML = (i+1) + '. ' + sortScores[i].initials + ': ' + sortScores[i].score
@@ -393,6 +394,7 @@ let highScore = function(){
 
 listDivEl.appendChild(listEl)
 main.appendChild(listDivEl)
+reTakeClearBtns();
 }
 }
 
@@ -404,23 +406,49 @@ let takeMeToTheHighScorePage = function () {
     mainHeader.innerHTML = 'High Scores';
     let listDivEl = document.createElement('div')
     let listEl = document.createElement('ul')
+    listEl.className = 'list-div'
     for (i=0;i<highScores.length; i++) {
         let listItemEl = document.createElement('li')
         listItemEl.innerHTML = (i+1) + '. ' + highScores[i].initials + ': ' + highScores[i].score
         listEl.appendChild(listItemEl)
 }
-
-
-listDivEl.appendChild(listEl)
-main.appendChild(listDivEl)
+    listDivEl.appendChild(listEl)
+    main.appendChild(listDivEl)
+    reTakeClearBtns();
 }
 
+let reTakeClearBtns = function(){
+    let goBackBtn=document.createElement('button')
+    goBackBtn.innerText = 'Retake Quiz'
+    goBackBtn.className= 'btn retake'
+    let clearScoresBtn=document.createElement('button')
+    clearScoresBtn.innerText = 'Clear High Scores'
+    clearScoresBtn.className = 'btn clear'
+    main.appendChild(goBackBtn)
+    main.appendChild(clearScoresBtn)
+}
+
+let clearHighScores = function(){
+    event.preventDefault();
+    if (event.target.matches('.clear')) {
+        highScores = [];
+        sortScores = [];
+        localStorage.setItem('High Scores', null)
+        document.querySelector('.list-div').remove();
+    }
+}
 let noFeedback = function() {
     if (event.target.matches('.btn')) {
         document.querySelector('.feedback-text').innerHTML = ''
     }
 }
 
+let reTake = function() {
+    event.preventDefault();
+    if (event.target.matches('.retake')) {
+        window.location.reload()
+    }
+}
 loadHighScores();
 let startButton = document.querySelector('#start-btn')
 let highScoreButton = document.querySelector('.high-score-anchor')
@@ -430,3 +458,5 @@ startButton.addEventListener('click', startTimer)
 main.addEventListener('mousedown', noFeedback)
 main.addEventListener('click', loadQuestion)
 main.addEventListener('click', highScore)
+main.addEventListener('click', reTake)
+main.addEventListener('click', clearHighScores)
