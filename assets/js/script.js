@@ -403,6 +403,12 @@ listDivEl.appendChild(listEl)
 main.appendChild(listDivEl)
 }
 
+let noFeedback = function() {
+    if (event.target.matches('.btn')) {
+    document.querySelector('.feedback-text').innerHTML = '';
+    }
+}
+
 loadHighScores();
 let startButton = document.querySelector('#start-btn')
 let highScoreButton = document.querySelector('.high-score-anchor')
@@ -411,3 +417,4 @@ startButton.addEventListener('click', startTimer)
 // main.addEventListener('click', newQuestion)
 main.addEventListener('click', loadQuestion)
 main.addEventListener('click', highScore)
+main.addEventListener('mousedown', noFeedback)
