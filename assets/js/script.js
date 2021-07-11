@@ -243,7 +243,7 @@ let loadQuestion = function() {
                     inputItemEl.className = 'form-input'
                 let submitItemEl = document.createElement('button')
                     submitItemEl.type = 'submit'
-                    submitItemEl.className = 'submit-btn'
+                    submitItemEl.className = 'btn submit-btn'
                     submitItemEl.innerText = 'Submit'
                 formItemEl.appendChild(labelItemEl)
                 formItemEl.appendChild(inputItemEl)
@@ -269,7 +269,7 @@ let loadQuestion = function() {
                     inputItemEl.className = 'form-input'
                 let submitItemEl = document.createElement('button')
                     submitItemEl.type = 'submit'
-                    submitItemEl.className = 'submit-btn'
+                    submitItemEl.className = 'btn submit-btn'
                     submitItemEl.innerText = 'Submit'
                 formItemEl.appendChild(labelItemEl)
                 formItemEl.appendChild(inputItemEl)
@@ -291,7 +291,6 @@ let retrieveValue = function () {
         fbDiv.className = 'feedback'
         //get the element's value
         let btnValue = targetEl.getAttribute('value');
-        console.log(btnValue);
         if (btnValue === 'true') {
             let feedback = document.createElement('h2');
             feedback.className = 'feedback-text';
@@ -405,7 +404,7 @@ main.appendChild(listDivEl)
 
 let noFeedback = function() {
     if (event.target.matches('.btn')) {
-    document.querySelector('.feedback-text').innerHTML = '';
+        document.querySelector('.feedback-text').innerHTML = ''
     }
 }
 
@@ -415,6 +414,6 @@ let highScoreButton = document.querySelector('.high-score-anchor')
 highScoreButton.addEventListener('click', takeMeToTheHighScorePage)
 startButton.addEventListener('click', startTimer)
 // main.addEventListener('click', newQuestion)
+main.addEventListener('mousedown', noFeedback)
 main.addEventListener('click', loadQuestion)
 main.addEventListener('click', highScore)
-main.addEventListener('mousedown', noFeedback)
