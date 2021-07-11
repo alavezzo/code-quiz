@@ -1,6 +1,6 @@
 # Code Quiz
 
-This application launches a short, timed, multiple choice quiz on the subject of coding. When users submit an answer to a question, feedback, informing the user if the answer was correct or incorrect, is returned, and a new question is posed. Incorrect answers are penalized with a ten second deduction from the timer. Upon completion of the quiz the time remaining is assigned as the user's final score and the user has the option to input his initials alongside his score and hope to make it to the High Score leaderboard!
+This application launches a short, timed, multiple choice quiz on the subject of coding. When users submit an answer to a question, feedback, informing the user if the answer was correct or incorrect, is returned, and a new question is posed. Incorrect answers are penalized with a ten second deduction from the timer. Upon completion of the quiz, the time remaining is assigned as the user's final score and the user is prompted to register his initials alongside his score. The top five scores make it to the High Score leaderboard!
 
 ## Link to Code Quiz!
 https://alavezzo.github.io/code-quiz/
