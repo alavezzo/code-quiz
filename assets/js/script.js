@@ -341,8 +341,8 @@ let highScore = function(){
             score: fS
         }
         if (highScores.length===0) {
-            highScores.push(highScoreObj);
-            localStorage.setItem('High Scores', JSON.stringify(highScores))
+            sortScores.push(highScoreObj);
+            localStorage.setItem('High Scores', JSON.stringify(sortScores))
             }
         else {
             // for (i=0; i<highScores.length; i++) {
@@ -374,21 +374,25 @@ let highScore = function(){
                     }
                 }
             }
+        if (sortScores.length > 5) {
+            sortScores.pop();
+        };
         localStorage.setItem('High Scores', JSON.stringify(sortScores));
     }
-        //     if (sortScores.length > 5) {
-        //          sortScores.pop();
-        //         };
-
-        //     console.log(sortScores);
-        //     
-        // // }
         document.querySelector('.form').remove();
         document.querySelector('.high-scores').remove();
         document.querySelector('.timer').remove();
         mainHeader.innerHTML = 'High Scores';
-    }    
-    
+        let listDivEl = document.createElement('div')
+        let listEl = document.createElement('ul')
+        for (i=0;i<sortScores.length; i++) {
+            let listItemEl = document.createElement('li')
+            listItemEl.innerHTML = (i+1) + '. ' + sortScores[i].initials + ': ' + sortScores[i].score
+            listEl.appendChild(listItemEl)
+        }
+        listDivEl.appendChild(listEl)
+        main.appendChild(listDivEl)
+    }      
 }
 
 
