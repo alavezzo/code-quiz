@@ -3,7 +3,10 @@ let numberIncorrect = 0
 let percentCorrect = 0
 let timeRemaining = ''
 let finalScore = ''
-let fs = ''
+let fS = ''
+let user = ''
+
+let highScores = []
 
 let saveValues = function() {
     localStorage.setItem("Correct", JSON.stringify(numberCorrect));
@@ -238,8 +241,13 @@ let loadQuestion = function() {
                     inputItemEl.type = 'text'
                     inputItemEl.name = 'initials'
                     inputItemEl.className = 'form-input'
+                let submitItemEl = document.createElement('button')
+                    submitItemEl.type = 'submit'
+                    submitItemEl.className = 'submit-btn'
+                    submitItemEl.innerText = 'Submit'
                 formItemEl.appendChild(labelItemEl)
                 formItemEl.appendChild(inputItemEl)
+                formItemEl.appendChild(submitItemEl)
             }
             if (btnValue === 'false') {
                 fS = finalScore-10
@@ -259,8 +267,13 @@ let loadQuestion = function() {
                     inputItemEl.type = 'text'
                     inputItemEl.name = 'initials'
                     inputItemEl.className = 'form-input'
+                let submitItemEl = document.createElement('button')
+                    submitItemEl.type = 'submit'
+                    submitItemEl.className = 'submit-btn'
+                    submitItemEl.innerText = 'Submit'
                 formItemEl.appendChild(labelItemEl)
                 formItemEl.appendChild(inputItemEl)
+                formItemEl.appendChild(submitItemEl)
             }
         }
         retrieveValue();
@@ -300,8 +313,88 @@ let retrieveValue = function () {
         saveValues();
     }
 }
+let loadHighScores = function() {
+    if (JSON.parse(localStorage.getItem('High Scores'))!==null){
+    highScores = JSON.parse(localStorage.getItem('High Scores'));
+    console.log(highScores)
+    }
+    // for (i=0; i < highScores.length; i++) {
+    //     var yDataObj = {
+    //        name: highScores[i].initials,
+    //        type: highScores[i].score,
+    //        id: i
+    //    }
+    //    console.log(yDataObj);
+    // }
+   
+}
 
+let highScore = function(){
+    event.preventDefault();
+    let targetEl = event.target;
+    sortScores = [];
+    form = document.querySelector('.form')
+    if (targetEl.matches('.submit-btn')){
+        user = document.querySelector('.form-input').value;
+        let highScoreObj = {
+            initials: user,
+            score: fS
+        }
+        if (highScores.length===0) {
+            highScores.push(highScoreObj);
+            localStorage.setItem('High Scores', JSON.stringify(highScores))
+            }
+        else {
+            // for (i=0; i<highScores.length; i++) {
+            //         if (highScoreObj.score <= highScores[i].score) {
+            //             sortScores.push(highScores[i])
+            //         }
+            //         else {
+            //             sortScores.push(highScoreObj) 
+            //             sortScores.push()
+            //         }
+            // }
+            if (highScoreObj.score<=highScores[(highScores.length-1)].score) {
+                for (i=0; i<highScores.length; i++) {
+                sortScores.push(highScores[i]);
+                } 
+                sortScores.push(highScoreObj)
+            }
+            else {
+                for (i=0; i<highScores.length; i++) {
+                    if (highScoreObj.score < highScores[i].score) {
+                        sortScores.push(highScores[i])
+                     }
+                    else {
+                        sortScores.push(highScoreObj)
+                            while (i<highScores.length){
+                            sortScores.push(highScores[i])
+                            i++
+                            }
+                    }
+                }
+            }
+        localStorage.setItem('High Scores', JSON.stringify(sortScores));
+    }
+        //     if (sortScores.length > 5) {
+        //          sortScores.pop();
+        //         };
+
+        //     console.log(sortScores);
+        //     
+        // // }
+        document.querySelector('.form').remove();
+        document.querySelector('.high-scores').remove();
+        document.querySelector('.timer').remove();
+        mainHeader.innerHTML = 'High Scores';
+    }    
+    
+}
+
+
+loadHighScores();
 let startButton = document.querySelector('#start-btn')
 startButton.addEventListener('click', startTimer)
 // main.addEventListener('click', newQuestion)
 main.addEventListener('click', loadQuestion)
+main.addEventListener('click', highScore)
