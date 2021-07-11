@@ -318,6 +318,7 @@ let loadHighScores = function() {
     highScores = JSON.parse(localStorage.getItem('High Scores'));
     console.log(highScores)
     }
+    sortScores = JSON.parse(localStorage.getItem('High Scores'))
     // for (i=0; i < highScores.length; i++) {
     //     var yDataObj = {
     //        name: highScores[i].initials,
@@ -379,25 +380,33 @@ let highScore = function(){
         };
         localStorage.setItem('High Scores', JSON.stringify(sortScores));
     }
-        document.querySelector('.form').remove();
-        document.querySelector('.high-scores').remove();
-        document.querySelector('.timer').remove();
-        mainHeader.innerHTML = 'High Scores';
-        let listDivEl = document.createElement('div')
-        let listEl = document.createElement('ul')
-        for (i=0;i<sortScores.length; i++) {
-            let listItemEl = document.createElement('li')
-            listItemEl.innerHTML = (i+1) + '. ' + sortScores[i].initials + ': ' + sortScores[i].score
-            listEl.appendChild(listItemEl)
-        }
-        listDivEl.appendChild(listEl)
-        main.appendChild(listDivEl)
-    }      
+       takeMeToTheHighScorePage();
+}
+}
+
+let takeMeToTheHighScorePage = function () {
+    event.preventDefault();
+    document.querySelector('.form').remove();
+    document.querySelector('.high-scores').remove();
+    document.querySelector('.timer').remove();
+    mainHeader.innerHTML = 'High Scores';
+    let listDivEl = document.createElement('div')
+    let listEl = document.createElement('ul')
+    for (i=0;i<sortScores.length; i++) {
+        let listItemEl = document.createElement('li')
+        listItemEl.innerHTML = (i+1) + '. ' + sortScores[i].initials + ': ' + sortScores[i].score
+        listEl.appendChild(listItemEl)
 }
 
 
+listDivEl.appendChild(listEl)
+main.appendChild(listDivEl)
+}
+
 loadHighScores();
 let startButton = document.querySelector('#start-btn')
+let highScoreButton = document.querySelector('.high-score-anchor')
+highScoreButton.addEventListener('click', takeMeToTheHighScorePage)
 startButton.addEventListener('click', startTimer)
 // main.addEventListener('click', newQuestion)
 main.addEventListener('click', loadQuestion)
